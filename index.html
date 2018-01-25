@@ -14,7 +14,7 @@ var arrived = {};d.sort(SortByName);
 $.each(d,function(i,v) {if(v.OrderArrived){v.round=round_from_shift_number(v.ShiftNumber);v.isdinner=v.ShiftNumber > 100;if(!v.isdinner){arrived[v.resName] = (arrived[v.resName] || []);arrived[v.resName].push(v);
 arrived[v.resName].sort(SortByRound);}}});$.each(arrived,function(i,v) {$(tpl({'name': i,
 'rounds': v})).appendTo($('#container'));});
-if ($.isEmptyObject(arrived)) {$('<div> nothing :( </div/>').appendTo($('#container'));}}
+if ($.isEmptyObject(arrived)) {$('<div id="empt" > nothing :( </div/>').appendTo($('#container'));}}
 function fetch_update(target_proxy,m){var method=m || 'POST';var proxy=target_proxy || 'https://cors-anywhere.herokuapp.com/';var url = "https://www.10bis.co.il/checkpoint/services/OrdersService.svc/GetDailyResList";var finalURL=proxy + url;$.ajax({url: finalURL,
 type: method,
 data: JSON.stringify({cultureName: "en-US"}),
