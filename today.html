@@ -345,9 +345,13 @@
             }[n]
         }
 
-        function fetch_update() {
+        function build_date_string() {
             var today = new Date();
-            var today_asstr = today.toLocaleDateString("en-IL")
+            return today.getDate() + '/' + (today.getMonth + 1) + '/' + today.getFullYear();
+        }
+
+        function fetch_update() {
+            var today_asstr = build_date_string();
             console.log("updating for " + today_asstr);
             var usercount = 0;
             for (var personkey in window.ppl) {
