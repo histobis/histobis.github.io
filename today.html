@@ -272,7 +272,7 @@
 
         function rem_ppl(id) {
             delete window.ppl[id];
-            Cookies.set('ppl', window.ppl);
+            Cookies.set('ppl', window.ppl, { expires: 300 });
         }
 
         function add_ppl(name, id) {
@@ -280,7 +280,7 @@
                 uid: id,
                 name: name
             };
-            Cookies.set('ppl', window.ppl);
+            Cookies.set('ppl', window.ppl, { expires: 300 });
         }
 
         function check_arrived(opq, myres, change_data, target_proxy, m) {
