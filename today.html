@@ -321,7 +321,7 @@
                         if (!found) {
                             console.warn('no restaurant found for ' + opq);
                             console.log('treating as never ordered');
-                            change_data(opq, undefined, undefined, true);
+                            change_data(opq, myres, undefined, true);
                         }
                     }
                 },
@@ -346,13 +346,41 @@
             }[n]
         }
 
-        function build_date_string() {
-            var today = new Date();
+        function build_date_string(d) {
+            var today = d || new Date();
             return today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
         }
 
+        function get_date_from_offset() {
+            var qd = {}
+            location.search.substr(1).split("&").forEach(function(item) {
+                qd[item.split("=")[0]] = item.split("=")[1]
+            });
+
+            if ("o" in qd) {
+                var offset_str = qd["o"];
+                var offset_days = parseInt(offset_str);
+                if (isNaN(offset_days)) {
+                    return null;
+                }
+
+                if (offset_days < -7 || offset_days > 7) {
+                    return null;
+                }
+
+                var someDate = new Date();
+                someDate.setDate(someDate.getDate() + offset_days);
+                return someDate;
+            }
+            return null;
+        }
+
         function fetch_update() {
-            var today_asstr = build_date_string();
+            var target_date = get_date_from_offset();
+            var today_asstr = build_date_string(target_date);
+            if (target_date) {
+                document.title = "status for: " + today_asstr;
+            }
             console.log("updating for " + today_asstr);
             var usercount = 0;
             for (var personkey in window.ppl) {
@@ -369,12 +397,17 @@
                         return;
                     }
                     if (error) {
-                        console.error('some error');
-                        $(uidid).empty();
-                        $(uidid).html("<div class='rest'>Error</div>");
-                        $(uidid).parent().css("background-color", "#6d3f35");
-                        return;
+                        if (target_date) {
+                            console.log('allowing no error on target date');
+                        } else {
+                            console.error('some error');
+                            $(uidid).empty();
+                            $(uidid).html("<div class='rest'>Error</div>");
+                            $(uidid).parent().css("background-color", "#6d3f35");
+                            return;
+                        }
                     }
+
 
                     if (!myres) {
                         console.log('never ordered');
