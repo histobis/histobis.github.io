@@ -428,7 +428,7 @@
                             'rounds': rounds,
                             'dish': myres.DishName
                         })));
-                        if (arrived) {
+                        if (arrived  && !target_date) {
                             console.log('arrived');
                             $(uidid).parent().css("background-color", "#90c17f");
                         } else {
