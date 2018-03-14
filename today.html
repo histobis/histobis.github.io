@@ -397,7 +397,7 @@
                         return;
                     }
                     if (error) {
-                        if (target_date) {
+                        if (target_date || myres.OrderID == 0) {
                             console.log('allowing no error on target date');
                         } else {
                             console.error('some error');
