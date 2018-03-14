@@ -397,7 +397,7 @@
                         return;
                     }
                     if (error) {
-                        if (target_date || myres.OrderID == 0) {
+                        if (target_date || (myres.OrderID == 0 && myres.DishId == 0 && myres.CategoryID == 0 && myres.ResName)) {
                             console.log('allowing no error on target date');
                         } else {
                             console.error('some error');
